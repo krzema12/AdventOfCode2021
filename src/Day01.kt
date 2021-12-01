@@ -2,8 +2,7 @@ fun main() {
     fun part1(input: List<String>): Int {
         return input.map { it.toInt() }
             .zipWithNext()
-            .map { (a, b) -> if (b > a) 1 else 0 }
-            .sum()
+            .count { it.second > it.first }
     }
 
     fun part2(input: List<String>): Int {
@@ -11,8 +10,7 @@ fun main() {
             .windowed(size = 3)
             .map { it.sum() }
             .zipWithNext()
-            .map { (a, b) -> if (b > a) 1 else 0 }
-            .sum()
+            .count { it.second > it.first }
     }
 
     // test if implementation meets criteria from the description, like:
