@@ -7,8 +7,7 @@ fun main() {
 
     fun part2(input: List<String>): Int {
         return input.map { it.toInt() }
-            .windowed(size = 3)
-            .map { it.sum() }
+            .windowed(size = 3) { it.sum() }
             .zipWithNext()
             .count { it.second > it.first }
     }
