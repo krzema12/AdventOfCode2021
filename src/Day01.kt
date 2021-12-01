@@ -17,6 +17,10 @@ fun main() {
     check(part1(testInput) == 7)
 
     val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    val answer1 = part1(input)
+    val answer2 = part2(input)
+    println(answer1)
+    println(answer2)
+    check(answer1 == 1502)
+    check(answer2 == 1538)
 }
