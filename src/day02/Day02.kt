@@ -7,6 +7,17 @@ data class Position(
     val depth: Int,
 )
 
+data class PositionWithAim(
+    val horizontal: Int,
+    val depth: Int,
+    val aim: Int,
+)
+
+data class Command(
+    val command: String,
+    val amount: Int,
+)
+
 fun main() {
     fun part1(input: List<String>): Int {
         return input
@@ -20,7 +31,22 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        return 0
+        return input
+            .map { it.toCommand() }
+            .fold(PositionWithAim(horizontal = 0, depth = 0, aim = 0)) { acc, command ->
+                when (command.command) {
+                    "down" -> acc.copy(aim = acc.aim + command.amount)
+                    "up" -> acc.copy(aim = acc.aim - command.amount)
+                    "forward" -> acc.copy(
+                        horizontal = acc.horizontal + command.amount,
+                        depth = acc.depth + acc.aim * command.amount,
+                    )
+                    else -> throw IllegalArgumentException("Not supported")
+                }
+            }
+            .let { finalPosition ->
+                finalPosition.horizontal * finalPosition.depth
+            }
     }
 
     // test if implementation meets criteria from the description, like:
@@ -33,7 +59,14 @@ fun main() {
     println(answer1)
     println(answer2)
     check(answer1 == 1692075)
-//    check(answer2 == 1538)
+    check(answer2 == 1749524700)
+}
+
+private fun String.toCommand(): Command {
+    val parts = split(" ")
+    val command = parts[0]
+    val amount = parts[1].toInt()
+    return Command(command = command, amount = amount)
 }
 
 private fun String.toPosition(): Position {
